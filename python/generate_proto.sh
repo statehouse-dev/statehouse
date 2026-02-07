@@ -4,7 +4,7 @@ set -euo pipefail
 # Generate Python protobuf and gRPC stubs from proto files
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROTO_DIR="$SCRIPT_DIR/../proto"
+PROTO_DIR="$SCRIPT_DIR/../crates/statehouse-proto/proto"
 PYTHON_DIR="$SCRIPT_DIR/statehouse/_generated"
 
 echo "Generating Python gRPC stubs..."

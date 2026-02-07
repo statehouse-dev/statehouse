@@ -6,6 +6,10 @@
 #   - pip install build twine
 #   - PyPI account and token (https://pypi.org/manage/account/token/)
 #
+# Optional: put token in .env (not committed) to avoid prompts:
+#   TWINE_USERNAME=__token__
+#   TWINE_PASSWORD=pypi-xxxxxxxxxxxx
+#
 # Usage:
 #   ./scripts/publish_python.sh           # Build only (no upload)
 #   ./scripts/publish_python.sh --upload   # Build and upload to PyPI
@@ -38,6 +42,12 @@ echo ""
 
 cd "$PYTHON_DIR"
 if [[ "${1:-}" == "--upload" ]]; then
+    # Load .env from project root if present (for TWINE_USERNAME / TWINE_PASSWORD)
+    if [[ -f "$PROJECT_ROOT/.env" ]]; then
+        set -a
+        source "$PROJECT_ROOT/.env"
+        set +a
+    fi
     if ! python3 -c "import twine" 2>/dev/null; then
         echo "Installing twine..."
         python3 -m pip install twine
@@ -46,6 +56,11 @@ if [[ "${1:-}" == "--upload" ]]; then
     python3 -m twine upload dist/*
     echo "✅ Published to PyPI. Install with: pip install statehouse"
 elif [[ "${1:-}" == "--test" ]]; then
+    if [[ -f "$PROJECT_ROOT/.env" ]]; then
+        set -a
+        source "$PROJECT_ROOT/.env"
+        set +a
+    fi
     if ! python3 -c "import twine" 2>/dev/null; then
         echo "Installing twine..."
         python3 -m pip install twine
@@ -58,6 +73,8 @@ else
     echo "  1. Create a token at https://pypi.org/manage/account/token/"
     echo "  2. Run: ./scripts/publish_python.sh --upload"
     echo "  3. When prompted, use __token__ as username and your token as password"
+    echo ""
+    echo "Or add to .env (not committed) to skip prompts: TWINE_USERNAME=__token__ and TWINE_PASSWORD=pypi-xxx"
     echo ""
     echo "To upload to Test PyPI first: ./scripts/publish_python.sh --test"
 fi

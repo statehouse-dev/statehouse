@@ -492,7 +492,7 @@ Daemon handles storage version upgrades:
 
 ## See Also
 
-- [Protocol Buffers](../proto/statehouse/v1/statehouse.proto) - API contract
+- [Protocol Buffers](../crates/statehouse-proto/proto/statehouse/v1/statehouse.proto) - API contract
 - [Replay Semantics](replay_semantics.md) - Event log behavior
 - [Python SDK](../python/README.md) - Client usage
 - [Architecture](architecture.md) - System design

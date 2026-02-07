@@ -15,7 +15,7 @@
 
 ## Core Types (Conceptual)
 
-These types are defined in protobuf (see `proto/statehouse/v1/statehouse.proto`).
+These types are defined in protobuf (see `crates/statehouse-proto/proto/statehouse/v1/statehouse.proto`).
 
 ### Namespace
 - **Type**: `string`
