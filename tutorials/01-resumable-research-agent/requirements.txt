@@ -1,0 +1,9 @@
+# Tutorial 01: Resumable Research Agent
+# Dependencies
+
+# Statehouse Python SDK
+# Install with: pip install -e ../../../python
+# (This tutorial uses the SDK from the repository)
+
+# No additional dependencies required for this tutorial
+# All functionality is provided by the Statehouse SDK

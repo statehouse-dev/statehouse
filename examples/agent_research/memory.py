@@ -16,6 +16,7 @@ from statehouse import Statehouse
 @dataclass
 class SessionEvent:
     """One event in a session replay (key, value, timestamp, operation type)."""
+
     key: str
     value: Optional[Dict[str, Any]]
     timestamp: str
@@ -70,7 +71,9 @@ class AgentMemory:
             namespace=self.namespace,
         )
         # Session metadata keys are exactly "session:{session_id}" (two parts)
-        session_keys = [k for k in keys if k.startswith("session:") and len(k.split(":")) == 2]
+        session_keys = [
+            k for k in keys if k.startswith("session:") and len(k.split(":")) == 2
+        ]
         if not session_keys:
             return None
         session_keys.sort(reverse=True)
@@ -221,7 +224,9 @@ class AgentMemory:
                             key=op.key,
                             value=op.value,
                             timestamp=ts_str,
-                            operation_name="Write" if op.value is not None else "Delete",
+                            operation_name="Write"
+                            if op.value is not None
+                            else "Delete",
                         )
                     )
         return events

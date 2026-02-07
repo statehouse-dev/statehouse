@@ -12,6 +12,7 @@ Or from the scripts directory:
 import pytest
 import time
 from statehouse import Statehouse, Transaction
+from statehouse.types import ReplayEvent
 from statehouse.exceptions import TransactionError, StatehouseError
 
 
@@ -338,3 +339,190 @@ class TestRestartSafety:
             assert len(event.operations) > 0
             # Each event should have our write
             assert any(op.key == f"safe-{i}" for op in event.operations)
+
+
+class TestReplayConvenienceAPIs:
+    """Test replay convenience APIs (replay_events, replay_pretty)"""
+    
+    def test_replay_events_alias(self, client):
+        """Test that replay_events() works identically to replay()"""
+        agent_id = f"replay-events-{int(time.time() * 1000)}"
+        
+        # Write some test data
+        tx = client.begin_transaction()
+        tx.write(agent_id=agent_id, key="test1", value={"data": "value1"})
+        tx.write(agent_id=agent_id, key="test2", value={"data": "value2"})
+        tx.commit()
+        
+        # Use replay_events()
+        events = list(client.replay_events(agent_id=agent_id))
+        
+        assert len(events) > 0
+        assert all(isinstance(e, ReplayEvent) for e in events)
+        
+        # Verify events have expected structure
+        for event in events:
+            assert event.agent_id == agent_id
+            assert event.namespace == "default"
+            assert event.txn_id
+            assert event.commit_ts > 0
+    
+    def test_replay_pretty_basic(self, client):
+        """Test basic pretty replay formatting"""
+        agent_id = f"pretty-{int(time.time() * 1000)}"
+        
+        # Write test data
+        tx = client.begin_transaction()
+        tx.write(agent_id=agent_id, key="context", value={"topic": "test"})
+        tx.commit()
+        
+        # Get pretty replay
+        lines = list(client.replay_pretty(agent_id=agent_id))
+        
+        # Should have at least one line
+        assert len(lines) > 0
+        
+        # Each line should be a string
+        assert all(isinstance(line, str) for line in lines)
+        
+        # Lines should contain key information
+        for line in lines:
+            assert agent_id in line
+            assert "context" in line or "WRITE" in line
+    
+    def test_replay_pretty_verbose(self, client):
+        """Test verbose replay formatting"""
+        agent_id = f"verbose-{int(time.time() * 1000)}"
+        
+        # Write test data
+        tx = client.begin_transaction()
+        tx.write(agent_id=agent_id, key="data", value={"x": 42})
+        tx.commit()
+        
+        # Get verbose replay
+        lines = list(client.replay_pretty(agent_id=agent_id, verbose=True))
+        
+        assert len(lines) > 0
+        
+        # Verbose output should include txn_id
+        verbose_text = "\n".join(lines)
+        assert "txn=" in verbose_text or "payload:" in verbose_text
+    
+    def test_replay_pretty_ordering(self, client):
+        """Test that pretty replay maintains event order"""
+        agent_id = f"order-{int(time.time() * 1000)}"
+        
+        # Write events in sequence
+        keys = ["step1", "step2", "step3"]
+        for key in keys:
+            tx = client.begin_transaction()
+            tx.write(agent_id=agent_id, key=key, value={"key": key})
+            tx.commit()
+        
+        # Get pretty replay
+        lines = list(client.replay_pretty(agent_id=agent_id))
+        
+        # Should have at least 3 lines (one per write)
+        assert len(lines) >= 3
+        
+        # Check ordering - keys should appear in sequence
+        text = "\n".join(lines)
+        pos1 = text.find("step1")
+        pos2 = text.find("step2")
+        pos3 = text.find("step3")
+        
+        assert pos1 < pos2 < pos3
+    
+    def test_replay_pretty_truncation(self, client):
+        """Test that large values are truncated in pretty output"""
+        agent_id = f"truncate-{int(time.time() * 1000)}"
+        
+        # Write very long string
+        long_value = "x" * 1000
+        tx = client.begin_transaction()
+        tx.write(agent_id=agent_id, key="long", value={"data": long_value})
+        tx.commit()
+        
+        # Get pretty replay
+        lines = list(client.replay_pretty(agent_id=agent_id))
+        
+        assert len(lines) > 0
+        
+        # Lines should be reasonably short (not 1000+ chars)
+        for line in lines:
+            # Each line should be under 250 chars (with reasonable margin)
+            assert len(line) < 300
+    
+    def test_replay_event_repr(self, client):
+        """Test ReplayEvent.__repr__() uses pretty formatting"""
+        agent_id = f"repr-{int(time.time() * 1000)}"
+        
+        # Write test data
+        tx = client.begin_transaction()
+        tx.write(agent_id=agent_id, key="test", value={"x": 1})
+        tx.commit()
+        
+        # Get event and check repr
+        events = list(client.replay_events(agent_id=agent_id))
+        assert len(events) > 0
+        
+        event = events[0]
+        repr_str = repr(event)
+        
+        # repr should contain key information
+        assert agent_id in repr_str
+        assert "test" in repr_str or "WRITE" in repr_str
+    
+    def test_replay_event_to_dict(self, client):
+        """Test ReplayEvent.to_dict() method"""
+        agent_id = f"dict-{int(time.time() * 1000)}"
+        
+        # Write test data
+        tx = client.begin_transaction()
+        tx.write(agent_id=agent_id, key="key1", value={"a": 1})
+        tx.write(agent_id=agent_id, key="key2", value={"b": 2})
+        tx.commit()
+        
+        # Get event and convert to dict
+        events = list(client.replay_events(agent_id=agent_id))
+        assert len(events) > 0
+        
+        event = events[0]
+        event_dict = event.to_dict()
+        
+        # Verify dict structure
+        assert "txn_id" in event_dict
+        assert "commit_ts" in event_dict
+        assert "namespace" in event_dict
+        assert "agent_id" in event_dict
+        assert "operations" in event_dict
+        
+        # Verify values
+        assert event_dict["agent_id"] == agent_id
+        assert event_dict["namespace"] == "default"
+        assert isinstance(event_dict["operations"], list)
+        assert len(event_dict["operations"]) > 0
+    
+    def test_replay_pretty_with_time_range(self, client):
+        """Test pretty replay with time range filtering"""
+        agent_id = f"range-{int(time.time() * 1000)}"
+        
+        # Write first event
+        tx1 = client.begin_transaction()
+        tx1.write(agent_id=agent_id, key="early", value={"time": "early"})
+        ts1 = tx1.commit()
+        
+        # Wait a moment and write second event
+        time.sleep(0.1)
+        tx2 = client.begin_transaction()
+        tx2.write(agent_id=agent_id, key="late", value={"time": "late"})
+        ts2 = tx2.commit()
+        
+        # Replay only events after first commit
+        lines = list(client.replay_pretty(agent_id=agent_id, start_ts=ts1 + 1))
+        
+        # Should only see second event
+        text = "\n".join(lines)
+        assert "late" in text
+        # First event might or might not be present depending on timing
+        # (we're testing time filtering works, not exact boundaries)

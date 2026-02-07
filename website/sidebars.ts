@@ -36,6 +36,14 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Tutorials',
+      items: [
+        'tutorials/overview',
+        'tutorials/resumable-research-agent',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Python SDK',
       items: [
         'python-sdk/overview',
@@ -64,6 +72,7 @@ const sidebars: SidebarsConfig = {
         'operations/snapshots',
         'operations/recovery',
         'operations/logging-and-metrics',
+        'operations/cli',
       ],
     },
     {

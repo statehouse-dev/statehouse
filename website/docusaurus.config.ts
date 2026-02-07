@@ -53,6 +53,11 @@ const config: Config = {
           label: 'Docs',
         },
         {
+          to: '/docs/tutorials/overview',
+          position: 'left',
+          label: 'Tutorials',
+        },
+        {
           href: 'https://github.com/statehouse-dev/statehouse',
           label: 'GitHub',
           position: 'right',
@@ -72,6 +77,10 @@ const config: Config = {
             {
               label: 'Getting Started',
               to: '/docs/getting-started/installation',
+            },
+            {
+              label: 'Tutorials',
+              to: '/docs/tutorials/overview',
             },
             {
               label: 'Python SDK',

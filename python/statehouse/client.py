@@ -5,14 +5,15 @@ This module provides a clean Python API that hides all gRPC/protobuf details.
 """
 
 from typing import Any, Dict, Iterator, Optional
+
 import grpc
 from google.protobuf.struct_pb2 import Struct
 
 # Import generated stubs
 from ._generated.statehouse.v1 import statehouse_pb2, statehouse_pb2_grpc
-
-from .types import StateResult, ReplayEvent, Operation
-from .exceptions import StatehouseError, TransactionError, NotFoundError, ConnectionError as StatehouseConnectionError
+from .exceptions import ConnectionError as StatehouseConnectionError
+from .exceptions import StatehouseError, TransactionError
+from .types import Operation, ReplayEvent, StateResult
 
 
 class Transaction:
@@ -335,12 +336,14 @@ class Statehouse:
             results = []
             for entry in response.entries:
                 value = _struct_to_dict(entry.value)
-                results.append(StateResult(
-                    value=value,
-                    version=entry.version,
-                    commit_ts=entry.commit_ts,
-                    exists=True,
-                ))
+                results.append(
+                    StateResult(
+                        value=value,
+                        version=entry.version,
+                        commit_ts=entry.commit_ts,
+                        exists=True,
+                    )
+                )
             return results
         except grpc.RpcError as e:
             raise StatehouseError(f"ScanPrefix failed: {e}")
@@ -375,18 +378,100 @@ class Statehouse:
                 operations = []
                 for op in event.operations:
                     value = _struct_to_dict(op.value) if op.HasField("value") else None
-                    operations.append(Operation(
-                        key=op.key,
-                        value=value,
-                        version=op.version,
-                    ))
+                    operations.append(
+                        Operation(
+                            key=op.key,
+                            value=value,
+                            version=op.version,
+                        )
+                    )
                 yield ReplayEvent(
                     txn_id=event.txn_id,
                     commit_ts=event.commit_ts,
                     operations=operations,
+                    namespace=namespace or self._namespace,
+                    agent_id=agent_id,
                 )
         except grpc.RpcError as e:
             raise StatehouseError(f"Replay failed: {e}")
+
+    def replay_events(
+        self,
+        agent_id: str,
+        start_ts: Optional[int] = None,
+        end_ts: Optional[int] = None,
+        namespace: Optional[str] = None,
+    ) -> Iterator[ReplayEvent]:
+        """
+        Replay events for an agent (alias for replay()).
+
+        This method is identical to replay() but provided for clarity
+        when using alongside replay_pretty().
+
+        Args:
+            agent_id: Agent identifier
+            start_ts: Start timestamp (optional)
+            end_ts: End timestamp (optional)
+            namespace: Namespace (default: instance default)
+
+        Yields:
+            ReplayEvent objects
+        """
+        return self.replay(agent_id, start_ts, end_ts, namespace)
+
+    def replay_pretty(
+        self,
+        agent_id: str,
+        start_ts: Optional[int] = None,
+        end_ts: Optional[int] = None,
+        namespace: Optional[str] = None,
+        verbose: bool = False,
+    ) -> Iterator[str]:
+        """
+        Replay events with pretty formatting (human-readable).
+
+        This is the recommended way to display replay output to users.
+        Each event's operations are formatted as single-line strings.
+
+        Args:
+            agent_id: Agent identifier
+            start_ts: Start timestamp (optional)
+            end_ts: End timestamp (optional)
+            namespace: Namespace (default: instance default)
+            verbose: If True, include full details (txn_id, event_id, payload)
+
+        Yields:
+            Formatted event strings (one per operation)
+        """
+        from .formatting import format_event_pretty, format_event_verbose
+
+        for event in self.replay(agent_id, start_ts, end_ts, namespace):
+            for i, op in enumerate(event.operations):
+                if verbose:
+                    # Verbose format with full details
+                    line = format_event_verbose(
+                        timestamp=event.commit_ts,
+                        agent_id=agent_id,
+                        operation="write" if op.value is not None else "delete",
+                        key=op.key,
+                        version=op.version,
+                        txn_id=event.txn_id,
+                        event_id=i,  # Operation index within transaction
+                        value=op.value,
+                        namespace=namespace or self._namespace,
+                    )
+                else:
+                    # Standard pretty format
+                    line = format_event_pretty(
+                        timestamp=event.commit_ts,
+                        agent_id=agent_id,
+                        operation="write" if op.value is not None else "delete",
+                        key=op.key,
+                        version=op.version,
+                        value=op.value,
+                        namespace=namespace or self._namespace,
+                    )
+                yield line
 
     def close(self) -> None:
         """Close the connection."""
@@ -403,6 +488,7 @@ class Statehouse:
 
 
 # Helper functions for protobuf Struct <-> dict conversion
+
 
 def _dict_to_struct(d: Dict[str, Any]) -> Struct:
     """Convert dict to protobuf Struct."""

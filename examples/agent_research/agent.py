@@ -25,35 +25,35 @@ from tools import ToolRegistry, SearchTool, CalculatorTool, WriteFileTool
 class ResearchAgent:
     """
     A research agent that stores all state in Statehouse.
-    
+
     The agent:
     - Stores every reasoning step
     - Stores tool calls and their outputs
     - Stores final answers with provenance
     - Can resume from crashes
     """
-    
+
     def __init__(
         self,
         agent_id: str,
         statehouse_addr: str = "localhost:50051",
-        namespace: str = "default"
+        namespace: str = "default",
     ):
         self.agent_id = agent_id
         self.namespace = namespace
         self.client = Statehouse(url=statehouse_addr)
         self.memory = AgentMemory(self.client, agent_id, namespace)
         self.tools = ToolRegistry()
-        
+
         # Register available tools
         self.tools.register(SearchTool())
         self.tools.register(CalculatorTool())
         self.tools.register(WriteFileTool())
-        
+
         # Session state
         self.session_id = None
         self.step_count = 0
-        
+
     def initialize(self):
         """Initialize the agent and check for resumable sessions."""
         last_session = self.memory.get_last_session()
@@ -64,36 +64,38 @@ class ResearchAgent:
             if response.lower() == "y":
                 self.session_id = last_session["session_id"]
                 self.step_count = last_session.get("step_count", 0)
-                print(f"[RESUME] Continuing session {self.session_id} from step {self.step_count}")
+                print(
+                    f"[RESUME] Continuing session {self.session_id} from step {self.step_count}"
+                )
                 return
         self.session_id = f"session-{int(time.time())}"
         self.memory.create_session(self.session_id)
         print(f"[START] New session: {self.session_id}")
-    
+
     async def research(self, question: str) -> Dict[str, Any]:
         """
         Research a question using available tools.
-        
+
         Args:
             question: The research question to answer
-            
+
         Returns:
             Dict containing the answer and provenance
         """
         print(f"\n[QUESTION] {question}")
-        
+
         self.memory.store_question(self.session_id, question)
         plan = await self._generate_plan(question)
         self.memory.store_plan(self.session_id, plan)
         print(f"[PLAN] {len(plan['steps'])} steps planned")
-        
+
         # Execute plan
         results = []
-        for i, step in enumerate(plan['steps'], 1):
+        for i, step in enumerate(plan["steps"], 1):
             self.step_count += 1
-            
+
             print(f"\n[STEP {self.step_count}] {step['action']}")
-            
+
             self.memory.store_step(self.session_id, self.step_count, step)
             if step["type"] == "tool":
                 result = await self._execute_tool(step["tool"], step.get("args", {}))
@@ -109,10 +111,10 @@ class ResearchAgent:
             self.memory.update_session_progress(
                 self.session_id, self.step_count, step["action"]
             )
-        
+
         # Generate final answer (mock LLM)
         answer = await self._synthesize_answer(question, results)
-        
+
         self.memory.store_answer(
             self.session_id,
             answer,
@@ -123,90 +125,100 @@ class ResearchAgent:
                 "results": results,
             },
         )
-        
+
         print(f"\n[ANSWER] {answer['text']}")
-        print(f"[COMPLETE] Session {self.session_id} finished after {self.step_count} steps")
-        
+        print(
+            f"[COMPLETE] Session {self.session_id} finished after {self.step_count} steps"
+        )
+
         return answer
-    
+
     async def _generate_plan(self, question: str) -> Dict[str, Any]:
         """
         Generate a research plan (mock LLM).
-        
+
         In a real implementation, this would call an LLM to generate a plan.
         For the demo, we create a simple static plan.
         """
         # Mock plan based on keywords
         steps = []
-        
-        if 'search' in question.lower() or 'find' in question.lower():
-            steps.append({
-                'type': 'tool',
-                'tool': 'search',
-                'action': 'Search for relevant information',
-                'args': {'query': question}
-            })
-        
-        if any(op in question.lower() for op in ['calculate', 'compute', 'sum', 'multiply']):
-            steps.append({
-                'type': 'tool',
-                'tool': 'calculator',
-                'action': 'Perform calculation',
-                'args': {'expression': 'extracted_from_question'}
-            })
-        
+
+        if "search" in question.lower() or "find" in question.lower():
+            steps.append(
+                {
+                    "type": "tool",
+                    "tool": "search",
+                    "action": "Search for relevant information",
+                    "args": {"query": question},
+                }
+            )
+
+        if any(
+            op in question.lower() for op in ["calculate", "compute", "sum", "multiply"]
+        ):
+            steps.append(
+                {
+                    "type": "tool",
+                    "tool": "calculator",
+                    "action": "Perform calculation",
+                    "args": {"expression": "extracted_from_question"},
+                }
+            )
+
         # Always synthesize at the end
-        steps.append({
-            'type': 'reasoning',
-            'action': 'Synthesize final answer',
-        })
-        
+        steps.append(
+            {
+                "type": "reasoning",
+                "action": "Synthesize final answer",
+            }
+        )
+
         return {
-            'question': question,
-            'steps': steps,
-            'created_at': datetime.now().isoformat()
+            "question": question,
+            "steps": steps,
+            "created_at": datetime.now().isoformat(),
         }
-    
-    async def _execute_tool(self, tool_name: str, args: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def _execute_tool(
+        self, tool_name: str, args: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Execute a tool and return its result."""
         tool = self.tools.get(tool_name)
         if not tool:
-            return {'error': f'Tool {tool_name} not found'}
-        
+            return {"error": f"Tool {tool_name} not found"}
+
         try:
             result = await tool.execute(args)
             return result
         except Exception as e:
-            return {'error': str(e)}
-    
+            return {"error": str(e)}
+
     async def _synthesize_answer(
-        self,
-        question: str,
-        results: List[Dict[str, Any]]
+        self, question: str, results: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """
         Synthesize final answer from results (mock LLM).
-        
+
         In a real implementation, this would call an LLM to synthesize the answer.
         """
         # Simple mock synthesis
-        answer_text = f"Based on the research, here's what I found:\n"
-        
+        answer_text = "Based on the research, here's what I found:\n"
+
         for i, result in enumerate(results, 1):
-            if 'error' in result:
+            if "error" in result:
                 answer_text += f"\n{i}. Error: {result['error']}"
-            elif 'summary' in result:
+            elif "summary" in result:
                 answer_text += f"\n{i}. {result['summary']}"
             else:
                 answer_text += f"\n{i}. {json.dumps(result, indent=2)}"
-        
+
         return {
-            'text': answer_text,
-            'confidence': 0.85,
-            'sources': [r.get('source') for r in results if 'source' in r],
-            'created_at': datetime.now().isoformat()
+            "text": answer_text,
+            "confidence": 0.85,
+            "sources": [r.get("source") for r in results if "source" in r],
+            "created_at": datetime.now().isoformat(),
         }
-    
+
     def replay_session(self, session_id: Optional[str] = None):
         """Replay a session's history."""
         sid = session_id or self.session_id
@@ -232,10 +244,14 @@ class ResearchAgent:
                     elif "tool_result" in event.key:
                         print(f"  Tool: {val.get('tool', 'N/A')}")
                         res = val.get("result", val)
-                        print(f"  Result: {res.get('summary', res) if isinstance(res, dict) else res}")
+                        print(
+                            f"  Result: {res.get('summary', res) if isinstance(res, dict) else res}"
+                        )
                     elif "answer" in event.key:
                         ans = val.get("answer") or val
-                        text = (ans.get("text", "") if isinstance(ans, dict) else str(ans))[:100]
+                        text = (
+                            ans.get("text", "") if isinstance(ans, dict) else str(ans)
+                        )[:100]
                         print(f"  Answer: {text}...")
                     else:
                         try:
@@ -255,14 +271,14 @@ class ResearchAgent:
 
 async def main():
     """Main entry point for the research agent."""
-    
+
     # Parse command line args
-    agent_id = os.environ.get('AGENT_ID', 'agent-research-1')
-    statehouse_addr = os.environ.get('STATEHOUSE_ADDR', 'localhost:50051')
-    
+    agent_id = os.environ.get("AGENT_ID", "agent-research-1")
+    statehouse_addr = os.environ.get("STATEHOUSE_ADDR", "localhost:50051")
+
     # Create agent
     agent = ResearchAgent(agent_id, statehouse_addr)
-    
+
     try:
         agent.initialize()
         print("\n" + "=" * 60)

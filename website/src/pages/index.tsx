@@ -121,15 +121,15 @@ for event in client.replay(agent_id="my-agent"):
               <div className="text--center margin-top--xl margin-bottom--xl">
                 <Link
                   className="button button--primary button--lg"
-                  to="/docs/getting-started/installation"
+                  to="/docs/tutorials/overview"
                 >
-                  Get Started
+                  Start Tutorial
                 </Link>
                 <Link
                   className="button button--outline button--primary button--lg margin-left--md"
-                  to="/docs/getting-started/first-transaction"
+                  to="/docs/getting-started/installation"
                 >
-                  First transaction
+                  Get Started
                 </Link>
               </div>
 

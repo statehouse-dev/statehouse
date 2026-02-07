@@ -5,8 +5,8 @@ A strongly consistent state and memory engine for AI agents.
 """
 
 from .client import Statehouse, Transaction
-from .types import StateResult, ReplayEvent
 from .exceptions import StatehouseError, TransactionError
+from .types import ReplayEvent, StateResult
 
 __version__ = "0.1.0"
 
