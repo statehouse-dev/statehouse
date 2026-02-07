@@ -98,7 +98,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Statehouse. Built with Docusaurus.`,
+      copyright: 'Copyright © Tacconi Consulting LTD — Company registered in England and Wales (16750820).',
     },
     prism: {
       theme: prismThemes.github,
