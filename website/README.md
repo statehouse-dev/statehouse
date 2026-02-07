@@ -28,7 +28,7 @@ Start the development server:
 npm start
 ```
 
-This starts a local server at `http://localhost:3000/statehouse/` with hot reloading.
+This starts a local server at `http://localhost:3000/` with hot reloading.
 
 ## Building
 
@@ -78,7 +78,7 @@ Key configuration in `docusaurus.config.ts`:
 | Setting | Value |
 |---------|-------|
 | Site name | Statehouse |
-| Base URL | `/statehouse/` |
+| Base URL | `/` (custom domain statehouse.dev) |
 | Default theme | Dark |
 | Blog | Disabled |
 
@@ -110,15 +110,23 @@ Custom styles are in `src/css/custom.css`:
 
 ## Deployment
 
-The site is deployed to GitHub Pages automatically via GitHub Actions on push to `main`.
+The site is deployed to **GitHub Pages** at **https://statehouse.dev** via GitHub Actions on push to `main` (see `.github/workflows/deploy-docs.yml`).
 
-Manual deployment:
+### Custom domain (statehouse.dev)
 
-```bash
-npm run deploy
-```
+1. **GitHub**
+   - Repo → **Settings** → **Pages**
+   - Under **Custom domain**, enter `statehouse.dev` and save
+   - Enable **Enforce HTTPS** once DNS has propagated
 
-This builds and pushes to the `gh-pages` branch.
+2. **DNS** (at your domain's DNS provider)
+   - For the **apex** (`statehouse.dev`), add four **A** records pointing to:
+     - `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - Optional **www**: add a **CNAME** record for `www` → `statehouse-dev.github.io`.
+
+After DNS propagates (up to 48 hours, often minutes), GitHub will show a green check and HTTPS will work.
+
+Manual deploy (optional): `npm run deploy` builds and pushes to the `gh-pages` branch; the primary deployment is via the Actions workflow above.
 
 ## Broken Links
 

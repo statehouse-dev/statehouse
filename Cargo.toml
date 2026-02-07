@@ -10,7 +10,11 @@ members = [
 version = "0.1.0"
 edition = "2021"
 authors = ["Statehouse Team"]
-license = "Proprietary"
+license-file = "LICENSE.md"
+description = "Strongly consistent state and memory engine for AI agents"
+repository = "https://github.com/statehouse-dev/statehouse"
+homepage = "https://statehouse.dev"
+documentation = "https://statehouse.dev"
 
 [workspace.dependencies]
 # gRPC

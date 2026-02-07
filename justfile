@@ -48,16 +48,10 @@ publish-python-test:
 publish-cargo:
     #!/usr/bin/env bash
     set -e
-    if [[ -f .env ]]; then
-        set -a
-        source .env
-        set +a
-    fi
-    if [[ -z "${CARGO_REGISTRY_TOKEN:-}" ]]; then
-        echo "CARGO_REGISTRY_TOKEN not set. Add it to .env"
-        exit 1
-    fi
+    [[ -f .env ]] || { echo "Missing .env"; exit 1; }
+    set -a && source .env && set +a
+    [[ -n "${CARGO_REGISTRY_TOKEN:-}" ]] || { echo "CARGO_REGISTRY_TOKEN not set. Add it to .env"; exit 1; }
     cargo login "$CARGO_REGISTRY_TOKEN"
-    cargo publish -p statehouse-proto
-    cargo publish -p statehouse-core
-    cargo publish -p statehouse-daemon
+    cargo publish -p statehouse-proto --allow-dirty || true
+    cargo publish -p statehouse-core --allow-dirty
+    cargo publish -p statehouse-daemon --allow-dirty

@@ -3,15 +3,19 @@ name = "statehouse-daemon"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
-license.workspace = true
+license-file = "LICENSE.md"
+description.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
 
 [[bin]]
 name = "statehoused"
 path = "src/main.rs"
 
 [dependencies]
-statehouse-proto = { path = "../statehouse-proto" }
-statehouse-core = { path = "../statehouse-core" }
+statehouse-proto = { path = "../statehouse-proto", version = "0.1" }
+statehouse-core = { path = "../statehouse-core", version = "0.1" }
 
 # gRPC
 tonic.workspace = true

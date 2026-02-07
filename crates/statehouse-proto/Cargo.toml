@@ -3,7 +3,11 @@ name = "statehouse-proto"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
-license.workspace = true
+license-file = "LICENSE.md"
+description.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
 
 [dependencies]
 prost.workspace = true

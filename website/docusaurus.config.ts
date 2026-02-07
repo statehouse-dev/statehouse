@@ -7,9 +7,9 @@ const config: Config = {
   tagline: 'Strongly consistent state for agents and workflows',
   favicon: 'img/favicon.ico',
 
-  // GitHub Pages configuration
-  url: 'https://statehouse-dev.github.io',
-  baseUrl: '/statehouse/',
+  // GitHub Pages with custom domain statehouse.dev
+  url: 'https://statehouse.dev',
+  baseUrl: '/',
   organizationName: 'statehouse-dev',
   projectName: 'statehouse',
 
