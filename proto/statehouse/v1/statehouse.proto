@@ -1,0 +1,196 @@
+syntax = "proto3";
+
+package statehouse.v1;
+
+import "google/protobuf/struct.proto";
+
+// StatehouseService is the core gRPC service for Statehouse.
+// All state operations go through this service.
+service StatehouseService {
+  // Health check
+  rpc Health(HealthRequest) returns (HealthResponse);
+
+  // Version information
+  rpc Version(VersionRequest) returns (VersionResponse);
+
+  // Transaction lifecycle
+  rpc BeginTransaction(BeginTransactionRequest) returns (BeginTransactionResponse);
+  rpc Write(WriteRequest) returns (WriteResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+  rpc Commit(CommitRequest) returns (CommitResponse);
+  rpc Abort(AbortRequest) returns (AbortResponse);
+
+  // Read operations
+  rpc GetState(GetStateRequest) returns (GetStateResponse);
+  rpc GetStateAtVersion(GetStateAtVersionRequest) returns (GetStateAtVersionResponse);
+  rpc ListKeys(ListKeysRequest) returns (ListKeysResponse);
+  rpc ScanPrefix(ScanPrefixRequest) returns (ScanPrefixResponse);
+
+  // Replay (server-streaming)
+  rpc Replay(ReplayRequest) returns (stream ReplayEvent);
+}
+
+// ============================================================================
+// Health & Version
+// ============================================================================
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+}
+
+message VersionRequest {}
+
+message VersionResponse {
+  string version = 1;
+  string git_sha = 2;
+}
+
+// ============================================================================
+// Transaction Operations
+// ============================================================================
+
+message BeginTransactionRequest {
+  // Optional timeout in milliseconds. If not specified, default is 30000 (30s).
+  optional uint64 timeout_ms = 1;
+}
+
+message BeginTransactionResponse {
+  string txn_id = 1;
+}
+
+message WriteRequest {
+  string txn_id = 1;
+  string namespace = 2;
+  string agent_id = 3;
+  string key = 4;
+  google.protobuf.Struct value = 5;
+}
+
+message WriteResponse {}
+
+message DeleteRequest {
+  string txn_id = 1;
+  string namespace = 2;
+  string agent_id = 3;
+  string key = 4;
+}
+
+message DeleteResponse {}
+
+message CommitRequest {
+  string txn_id = 1;
+}
+
+message CommitResponse {
+  uint64 commit_ts = 1;
+}
+
+message AbortRequest {
+  string txn_id = 1;
+}
+
+message AbortResponse {}
+
+// ============================================================================
+// Read Operations
+// ============================================================================
+
+message GetStateRequest {
+  string namespace = 1;
+  string agent_id = 2;
+  string key = 3;
+}
+
+message GetStateResponse {
+  optional google.protobuf.Struct value = 1;
+  uint64 version = 2;
+  uint64 commit_ts = 3;
+  bool exists = 4;
+}
+
+message GetStateAtVersionRequest {
+  string namespace = 1;
+  string agent_id = 2;
+  string key = 3;
+  uint64 version = 4;
+}
+
+message GetStateAtVersionResponse {
+  optional google.protobuf.Struct value = 1;
+  uint64 version = 2;
+  uint64 commit_ts = 3;
+  bool exists = 4;
+}
+
+message ListKeysRequest {
+  string namespace = 1;
+  string agent_id = 2;
+}
+
+message ListKeysResponse {
+  repeated string keys = 1;
+}
+
+message ScanPrefixRequest {
+  string namespace = 1;
+  string agent_id = 2;
+  string prefix = 3;
+}
+
+message ScanPrefixResponse {
+  repeated StateEntry entries = 1;
+}
+
+message StateEntry {
+  string key = 1;
+  google.protobuf.Struct value = 2;
+  uint64 version = 3;
+  uint64 commit_ts = 4;
+}
+
+// ============================================================================
+// Replay (Streaming)
+// ============================================================================
+
+message ReplayRequest {
+  string namespace = 1;
+  string agent_id = 2;
+  optional uint64 start_ts = 3;  // If omitted, start from beginning
+  optional uint64 end_ts = 4;    // If omitted, stream until current state
+}
+
+message ReplayEvent {
+  string txn_id = 1;
+  uint64 commit_ts = 2;
+  repeated Operation operations = 3;
+}
+
+message Operation {
+  string key = 1;
+  optional google.protobuf.Struct value = 2;  // None = delete
+  uint64 version = 3;
+}
+
+// ============================================================================
+// Error Handling
+// ============================================================================
+
+enum ErrorCode {
+  UNKNOWN = 0;
+  INVALID_REQUEST = 1;
+  TXN_NOT_FOUND = 2;
+  TXN_EXPIRED = 3;
+  TXN_ALREADY_COMMITTED = 4;
+  KEY_NOT_FOUND = 5;
+  VERSION_NOT_FOUND = 6;
+  STORAGE_ERROR = 7;
+  INTERNAL_ERROR = 8;
+}
+
+message StatehouseError {
+  ErrorCode code = 1;
+  string message = 2;
+  map<string, string> details = 3;
+}

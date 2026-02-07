@@ -1,0 +1,112 @@
+# Statehouse Daemon Configuration
+#
+# This is a sample configuration file for the Statehouse daemon.
+# Currently, configuration is done via environment variables.
+# This file serves as documentation for available options.
+
+# ============================================================================
+# Server Configuration
+# ============================================================================
+
+# Server bind address (default: 0.0.0.0:50051)
+# STATEHOUSE_ADDR=0.0.0.0:50051
+
+# To bind to a specific interface:
+# STATEHOUSE_ADDR=127.0.0.1:50051  # Localhost only
+# STATEHOUSE_ADDR=0.0.0.0:8080     # All interfaces, custom port
+
+# ============================================================================
+# Storage Configuration
+# ============================================================================
+
+# Storage backend: RocksDB (default) or in-memory
+# STATEHOUSE_USE_MEMORY=1  # Use in-memory storage (ephemeral, for testing only)
+
+# RocksDB data directory (default: ./statehouse_data/)
+# Note: Currently hardcoded, will be configurable in future releases
+# STATEHOUSE_DATA_DIR=./statehouse_data
+
+# ============================================================================
+# Logging Configuration
+# ============================================================================
+
+# Logging level (default: info)
+# RUST_LOG=info      # Production (recommended)
+# RUST_LOG=debug     # Development and troubleshooting
+# RUST_LOG=trace     # Verbose debugging
+
+# Module-specific logging:
+# RUST_LOG=statehouse_daemon=debug,statehouse_core=trace
+
+# ============================================================================
+# Performance Tuning
+# ============================================================================
+
+# Note: These settings are currently hardcoded in StorageConfig.
+# Future releases will make them configurable via environment variables.
+
+# fsync_on_commit: Whether to fsync after every commit (default: true)
+#   - true: Maximum durability (recommended for production)
+#   - false: Better performance but risk of data loss on crash
+
+# snapshot_interval: Number of commits between snapshots (default: 1000)
+#   - Lower values: More frequent snapshots, faster recovery, more disk I/O
+#   - Higher values: Less frequent snapshots, slower recovery, less disk I/O
+
+# max_log_size: Maximum event log size before compaction (default: 10000)
+#   - Not yet implemented in MVP
+
+# ============================================================================
+# Example: Development Setup
+# ============================================================================
+
+# For local development and testing:
+# export STATEHOUSE_ADDR=127.0.0.1:50051
+# export STATEHOUSE_USE_MEMORY=1
+# export RUST_LOG=debug
+# ./statehoused
+
+# ============================================================================
+# Example: Production Setup
+# ============================================================================
+
+# For production deployment:
+# export STATEHOUSE_ADDR=0.0.0.0:50051
+# export RUST_LOG=info
+# # Use default RocksDB storage
+# ./statehoused
+
+# ============================================================================
+# Future Configuration (Post-MVP)
+# ============================================================================
+
+# Planned environment variables for future releases:
+# - STATEHOUSE_DATA_DIR: Custom data directory path
+# - STATEHOUSE_FSYNC: Enable/disable fsync (true/false)
+# - STATEHOUSE_SNAPSHOT_INTERVAL: Snapshot frequency
+# - STATEHOUSE_MAX_CONNECTIONS: Maximum concurrent gRPC connections
+# - STATEHOUSE_TLS_CERT: Path to TLS certificate
+# - STATEHOUSE_TLS_KEY: Path to TLS private key
+# - STATEHOUSE_AUTH_TOKEN: Authentication token
+
+# ============================================================================
+# Notes
+# ============================================================================
+
+# 1. This configuration file is currently for documentation only.
+#    Actual configuration is done via environment variables.
+
+# 2. To apply configuration, export environment variables before
+#    starting the daemon:
+#    export STATEHOUSE_ADDR=127.0.0.1:50051
+#    export RUST_LOG=debug
+#    ./statehoused
+
+# 3. For systemd deployments, add environment variables to the
+#    service unit file. See docs/deployment.md for details.
+
+# 4. For Docker deployments, use -e flags or env_file:
+#    docker run -e STATEHOUSE_ADDR=0.0.0.0:50051 statehouse/daemon
+
+# 5. All configuration will be migrated to this TOML file format
+#    in a future release.

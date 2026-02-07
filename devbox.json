@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/refs/heads/main/schema.json",
+  "packages": [
+    "python@3.11",
+    "cargo@latest",
+    "rustc@latest"
+  ],
+  "shell": {
+    "init_hook": ". $VENV_DIR/bin/activate"
+  }
+}

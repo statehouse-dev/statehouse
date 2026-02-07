@@ -1,0 +1,87 @@
+# Rust
+/target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+*.pyc
+*.pyd
+venv/
+env/
+ENV/
+.venv
+.python-version
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Generated proto code
+*_pb2.py
+*_pb2.pyi
+*_pb2_grpc.py
+
+# Devbox
+.devbox/
+
+# Data directories
+/data/
+*.db
+statehouse-data/
+
+# Ralph (autonomous agent artifacts)
+.ralph/
+.cursor/ralph-scripts/
+RALPH_TASK.md
+RALPH_SIGNS.md
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# Environment & secrets
+.env
+.env.*
+.env.local

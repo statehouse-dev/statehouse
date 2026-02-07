@@ -1,0 +1,167 @@
+# Statehouse Configuration
+#
+# This file documents the configuration options for statehoused.
+# Currently, configuration is via environment variables.
+# A TOML-based config file is planned for future releases.
+
+# Environment Variables
+# =====================
+
+# STATEHOUSE_USE_MEMORY
+# Type: boolean (presence means true)
+# Default: false (use RocksDB)
+# Description: Use in-memory storage instead of RocksDB.
+#              Useful for development and testing.
+#              Data is lost when the daemon stops.
+# Example:
+#   STATEHOUSE_USE_MEMORY=1 statehoused
+
+# STATEHOUSE_DATA_DIR
+# Type: string (path)
+# Default: ./data
+# Description: Directory where RocksDB stores data.
+#              Only used when STATEHOUSE_USE_MEMORY is not set.
+# Example:
+#   STATEHOUSE_DATA_DIR=/var/lib/statehouse statehoused
+
+# STATEHOUSE_LISTEN_ADDR
+# Type: string (address:port)
+# Default: [::1]:50051 (localhost IPv6, port 50051)
+# Description: Address and port for the gRPC server to listen on.
+#              Use 0.0.0.0 to listen on all interfaces.
+# Example:
+#   STATEHOUSE_LISTEN_ADDR=0.0.0.0:50051 statehoused
+
+# RUST_LOG
+# Type: string (log level)
+# Default: info
+# Description: Rust logging level. Options: trace, debug, info, warn, error
+#              Can be per-module: RUST_LOG=statehouse_core=debug,statehouse_daemon=info
+# Example:
+#   RUST_LOG=debug statehoused
+#   RUST_LOG=trace statehoused
+#   RUST_LOG=statehouse_core::state_machine=debug statehoused
+
+# Example Production Configuration
+# =================================
+
+# For production deployment, you might use:
+#
+#   # Use RocksDB for persistence
+#   export STATEHOUSE_DATA_DIR=/var/lib/statehouse/data
+#   
+#   # Listen on all interfaces
+#   export STATEHOUSE_LISTEN_ADDR=0.0.0.0:50051
+#   
+#   # Info-level logging
+#   export RUST_LOG=info
+#   
+#   # Start daemon
+#   /usr/local/bin/statehoused
+
+# Example Development Configuration
+# ==================================
+
+# For local development, you might use:
+#
+#   # Use in-memory storage (faster, no persistence)
+#   export STATEHOUSE_USE_MEMORY=1
+#   
+#   # Debug logging
+#   export RUST_LOG=debug
+#   
+#   # Default localhost listen address (secure)
+#   # No need to set STATEHOUSE_LISTEN_ADDR
+#   
+#   # Start daemon
+#   ./target/release/statehoused
+
+# Docker Configuration
+# ====================
+
+# Example docker-compose.yml:
+#
+# services:
+#   statehoused:
+#     image: statehouse/daemon:latest
+#     ports:
+#       - "50051:50051"
+#     volumes:
+#       - ./data:/data
+#     environment:
+#       - STATEHOUSE_DATA_DIR=/data
+#       - STATEHOUSE_LISTEN_ADDR=0.0.0.0:50051
+#       - RUST_LOG=info
+#     restart: unless-stopped
+
+# Kubernetes Configuration
+# =========================
+
+# Example StatefulSet configuration:
+#
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: statehoused
+# spec:
+#   serviceName: statehoused
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: statehoused
+#   template:
+#     metadata:
+#       labels:
+#         app: statehoused
+#     spec:
+#       containers:
+#       - name: statehoused
+#         image: statehouse/daemon:latest
+#         ports:
+#         - containerPort: 50051
+#           name: grpc
+#         env:
+#         - name: STATEHOUSE_DATA_DIR
+#           value: /data
+#         - name: STATEHOUSE_LISTEN_ADDR
+#           value: 0.0.0.0:50051
+#         - name: RUST_LOG
+#           value: info
+#         volumeMounts:
+#         - name: data
+#           mountPath: /data
+#   volumeClaimTemplates:
+#   - metadata:
+#       name: data
+#     spec:
+#       accessModes: ["ReadWriteOnce"]
+#       resources:
+#         requests:
+#           storage: 10Gi
+
+# Performance Tuning
+# ==================
+
+# For write-heavy workloads:
+# - Ensure SSDs are used (not HDDs)
+# - Monitor disk I/O with `iostat -x 1`
+# - Consider disabling fsync in dev (STATEHOUSE_USE_MEMORY=1)
+
+# For read-heavy workloads:
+# - RocksDB block cache helps (automatic)
+# - Consider scaling vertically (more RAM)
+
+# Future Configuration Options (Post-MVP)
+# ========================================
+
+# These will be added in future releases:
+#
+# snapshot_interval_commits = 10000     # Create snapshot every N commits
+# max_transaction_timeout_ms = 60000    # Max transaction timeout
+# max_payload_size_bytes = 1048576      # Max value size (1MB)
+# fsync_on_commit = true                # Sync to disk on commit
+# block_cache_size_mb = 512             # RocksDB block cache size
+# max_concurrent_clients = 1000         # Max simultaneous connections
+# enable_tls = false                    # Enable TLS
+# tls_cert_path = "/path/to/cert.pem"
+# tls_key_path = "/path/to/key.pem"

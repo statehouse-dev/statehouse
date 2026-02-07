@@ -1,0 +1,36 @@
+[Unit]
+Description=Statehouse - State and Memory Engine for AI Agents
+Documentation=https://statehouse.dev
+After=network.target
+
+[Service]
+Type=simple
+User=statehouse
+Group=statehouse
+WorkingDirectory=/var/lib/statehouse
+
+# Environment configuration
+Environment="STATEHOUSE_DATA_DIR=/var/lib/statehouse/data"
+Environment="STATEHOUSE_LISTEN_ADDR=0.0.0.0:50051"
+Environment="RUST_LOG=info"
+
+# Start the daemon
+ExecStart=/usr/local/bin/statehoused
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/statehouse
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=512
+
+[Install]
+WantedBy=multi-user.target
