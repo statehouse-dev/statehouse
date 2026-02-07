@@ -88,3 +88,14 @@ publish-cargo:
     cargo publish -p statehouse-proto --allow-dirty || true
     cargo publish -p statehouse-core --allow-dirty
     cargo publish -p statehouse-daemon --allow-dirty
+
+# Publish only core + daemon (use when statehouse-proto is already on crates.io)
+publish-cargo-core-daemon:
+    #!/usr/bin/env bash
+    set -e
+    [[ -f .env ]] || { echo "Missing .env"; exit 1; }
+    set -a && source .env && set +a
+    [[ -n "${CARGO_REGISTRY_TOKEN:-}" ]] || { echo "CARGO_REGISTRY_TOKEN not set. Add it to .env"; exit 1; }
+    cargo login "$CARGO_REGISTRY_TOKEN"
+    cargo publish -p statehouse-core --allow-dirty
+    cargo publish -p statehouse-daemon --allow-dirty
