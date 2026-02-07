@@ -112,17 +112,9 @@ Custom styles are in `src/css/custom.css`:
 
 The site is deployed to **GitHub Pages** at **https://statehouse.dev** via GitHub Actions on push to `main` (see `.github/workflows/deploy-docs.yml`).
 
-### Custom domain (statehouse.dev)
+**Required (one-time):** In the repo go to **Settings** → **Pages**. Under **Build and deployment**, set **Source** to **GitHub Actions**. If Source is "Deploy from a branch", the workflow will get a 404 when deploying.
 
-1. **GitHub**
-   - Repo → **Settings** → **Pages**
-   - Under **Custom domain**, enter `statehouse.dev` and save
-   - Enable **Enforce HTTPS** once DNS has propagated
-
-2. **DNS** (at your domain's DNS provider)
-   - For the **apex** (`statehouse.dev`), add four **A** records pointing to:
-     - `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - Optional **www**: add a **CNAME** record for `www` → `statehouse-dev.github.io`.
+Manual deployment:
 
 After DNS propagates (up to 48 hours, often minutes), GitHub will show a green check and HTTPS will work.
 
