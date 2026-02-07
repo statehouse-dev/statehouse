@@ -4,13 +4,23 @@ Install Statehouse daemon and Python SDK.
 
 ## Prerequisites
 
-- **Rust** (for building the daemon): `rustc` 1.70+ and `cargo`
+- **Daemon**: Run via [Docker](https://hub.docker.com/r/rtacconi/statehouse) (no Rust) or build from source (Rust 1.70+, `cargo`)
 - **Python** (for SDK): Python 3.9+
-- **Storage**: Disk space for RocksDB data directory (default: `./statehouse-data/`)
+- **Storage**: Only if not using Docker in-memory mode; otherwise disk for RocksDB data directory
 
 ## Install the Daemon
 
-### Option 1: Build from Source (Recommended)
+### Option 1: Docker (no Rust required)
+
+Run the daemon in a container:
+
+```bash
+docker run -d -p 50051:50051 --name statehouse rtacconi/statehouse:latest
+```
+
+See [Running the Daemon](./running-statehoused#docker) for in-memory vs persistent storage.
+
+### Option 2: Build from Source
 
 ```bash
 git clone https://github.com/statehouse-dev/statehouse.git
@@ -20,7 +30,7 @@ cargo build --release
 
 The daemon binary will be at `target/release/statehoused`.
 
-### Option 2: Use Pre-built Binary
+### Option 3: Use Pre-built Binary
 
 Download a release tarball from GitHub releases and extract:
 
@@ -47,9 +57,13 @@ pip install statehouse
 
 ## Verify Installation
 
-1. **Start the daemon:**
+1. **Start the daemon** (if not already running):
 
 ```bash
+# With Docker:
+docker run -d -p 50051:50051 --name statehouse rtacconi/statehouse:latest
+
+# Or from source:
 ./target/release/statehoused
 # or if installed: statehoused
 ```

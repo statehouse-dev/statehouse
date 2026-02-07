@@ -4,11 +4,16 @@ A reference implementation of an AI research agent using Statehouse for state ma
 
 ## How to use (quick reference)
 
-1. **Start the daemon** (in a separate terminal, from the repo root):
-   ```bash
-   cargo build --release
-   STATEHOUSE_USE_MEMORY=1 ./target/release/statehoused
-   ```
+1. **Start the daemon** (choose one):
+   - **Docker** (no Rust needed):
+     ```bash
+     docker run -d -p 50051:50051 --name statehouse statehouse-dev/statehouse
+     ```
+   - **From source** (from repo root):
+     ```bash
+     cargo build --release
+     STATEHOUSE_USE_MEMORY=1 ./target/release/statehoused
+     ```
 
 2. **Run the agent** (from this directory or repo root):
    ```bash

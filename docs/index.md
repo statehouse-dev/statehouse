@@ -24,4 +24,5 @@ Index of project documentation.
 
 | Document | Description |
 |----------|-------------|
+| [Docker](development/docker.md) | Build and publish the daemon image |
 | [AI-assisted development](dev/ai_assisted_dev.md) | Development practices and quality assurance |

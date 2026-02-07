@@ -179,24 +179,29 @@ Without Devbox, install [Rust](https://rustup.rs/) and Python 3.9+ (with pip) yo
 
 ### Prerequisites
 
-1. **Start the Statehouse daemon** (Rust binary required):
+1. **Start the Statehouse daemon** (choose one):
+
+**Option A: Docker** (no Rust required)
 
 ```bash
-# Build the daemon (requires Rust toolchain)
-cargo build --release
+docker run -d -p 50051:50051 --name statehouse rtacconi/statehouse:latest
+```
 
+**Option B: Build from source** (requires Rust toolchain)
+
+```bash
+cargo build --release
 # Run with in-memory storage (for testing)
 STATEHOUSE_USE_MEMORY=1 ./target/release/statehoused
-
 # Or run with persistent RocksDB storage (production)
 ./target/release/statehoused
 ```
 
-The daemon will start on `localhost:50051` by default. You should see:
+The daemon listens on `localhost:50051` by default. You should see:
 
 ```
 ╔════════════════════════════════════════════════╗
-║          🏛️  STATEHOUSE DAEMON 🏛️             ║
+║          🏛️  STATEHOUSE DAEMON 🏛️              ║
 ║     Strongly consistent state + memory         ║
 ║            engine for AI agents                ║
 ╚════════════════════════════════════════════════╝

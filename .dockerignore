@@ -1,0 +1,42 @@
+# Git and IDE
+.git
+.gitignore
+.editorconfig
+.vscode
+.idea
+
+# Rust build (rebuilt in image)
+target/
+
+# Python (not needed for daemon image)
+python/
+__pycache__/
+*.pyc
+venv
+.venv
+.env
+.env.*
+
+# Website and docs (not needed for daemon image)
+website/
+docs/
+*.md
+!LICENSE.md
+
+# Examples (documented separately; not in image)
+examples/
+
+# Scripts and config (optional; not required to run daemon in container)
+scripts/
+packaging/
+devbox.json
+devbox.lock
+justfile
+*.conf.example
+*.config.example
+
+# Misc
+RALPH_TASK.md
+RALPH_SIGNS.md
+.cursor
+.ralph

@@ -78,17 +78,27 @@ See `packaging/statehoused.service` for a systemd unit file example.
 
 ### Docker
 
-```dockerfile
-FROM rust:1.75 as builder
-WORKDIR /app
-COPY . .
-RUN cargo build --release
+Use the image from [Docker Hub](https://hub.docker.com/r/rtacconi/statehouse):
 
-FROM debian:bookworm-slim
-RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /app/target/release/statehoused /usr/local/bin/
-EXPOSE 50051
-CMD ["statehoused"]
+```bash
+# In-memory storage (default; good for try-it and CI)
+docker run -d -p 50051:50051 --name statehouse rtacconi/statehouse:latest
+
+# Persistent storage: mount a volume and disable in-memory
+docker run -d -p 50051:50051 -v statehouse-data:/data -e STATEHOUSE_USE_MEMORY= --name statehouse rtacconi/statehouse:latest
+```
+
+Environment variables:
+
+- `STATEHOUSE_ADDR` – Listen address (default: `0.0.0.0:50051`)
+- `STATEHOUSE_USE_MEMORY` – Set to any value for in-memory storage; leave unset for RocksDB in `/data`
+- `RUST_LOG` – Log level (e.g. `debug`)
+
+To build the image locally instead of pulling:
+
+```bash
+docker build -t rtacconi/statehouse:latest .
+docker run -d -p 50051:50051 rtacconi/statehouse:latest
 ```
 
 ### Health Check
