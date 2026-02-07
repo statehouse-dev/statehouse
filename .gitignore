@@ -85,3 +85,13 @@ RALPH_SIGNS.md
 .env
 .env.*
 .env.local
+
+# Docusaurus
+.docusaurus/
+website/build/
+website/node_modules/
+
+# Docusaurus
+.docusaurus/
+website/build/
+website/node_modules/
