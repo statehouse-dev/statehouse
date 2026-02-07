@@ -30,6 +30,10 @@ It does not provide SQL, joins, or complex queries.
 
 Statehouse is source-available but not open source. You can use it freely, including in production, but cannot redistribute it. See the [License](license) page for details.
 
+### Will there be commercial editions?
+
+Potential future commercial editions (Pro, Enterprise) are conceptual and not yet available. The free edition will remain free. See [Commercial Editions (Draft)](commercial/future-pro) for details.
+
 ## Architecture
 
 ### Why gRPC instead of HTTP/REST?

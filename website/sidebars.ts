@@ -95,6 +95,14 @@ const sidebars: SidebarsConfig = {
         'examples/audit-and-replay',
       ],
     },
+    {
+      type: 'category',
+      label: 'Commercial',
+      items: [
+        'commercial/future-pro',
+        'commercial/support',
+      ],
+    },
     'faq',
     'license',
   ],

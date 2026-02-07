@@ -44,6 +44,8 @@ These editions may include additional features, services, or support.
 
 The existence of paid editions does not restrict use of the free version.
 
+See [Commercial Editions (Draft)](commercial/future-pro) for more information.
+
 ### No Warranty
 
 Statehouse is provided "as is", without warranty of any kind, express or implied,
