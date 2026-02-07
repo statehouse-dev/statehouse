@@ -124,4 +124,4 @@ Logs include:
 ## Next Steps
 
 - [First Transaction](first-transaction) - Write your first state
-- [Configuration](operations/configuration) - Complete configuration reference
+- [Configuration](../operations/configuration) - Complete configuration reference

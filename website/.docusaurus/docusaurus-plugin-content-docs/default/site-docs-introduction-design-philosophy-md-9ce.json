@@ -1,0 +1,24 @@
+{
+  "id": "introduction/design-philosophy",
+  "title": "Design Philosophy",
+  "description": "Statehouse is built on clear principles that guide its design and development.",
+  "source": "@site/docs/introduction/design-philosophy.md",
+  "sourceDirName": "introduction",
+  "slug": "/introduction/design-philosophy",
+  "permalink": "/statehouse/docs/introduction/design-philosophy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/introduction/design-philosophy.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "When Not to Use Statehouse",
+    "permalink": "/statehouse/docs/introduction/when-not-to-use"
+  },
+  "next": {
+    "title": "State and Events",
+    "permalink": "/statehouse/docs/concepts/state-and-events"
+  }
+}

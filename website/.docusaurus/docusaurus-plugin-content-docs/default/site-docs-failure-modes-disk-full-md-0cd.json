@@ -1,0 +1,24 @@
+{
+  "id": "failure-modes/disk-full",
+  "title": "Disk Full",
+  "description": "This document describes behavior when the storage disk runs out of space.",
+  "source": "@site/docs/failure-modes/disk-full.md",
+  "sourceDirName": "failure-modes",
+  "slug": "/failure-modes/disk-full",
+  "permalink": "/statehouse/docs/failure-modes/disk-full",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/failure-modes/disk-full.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Process Crash",
+    "permalink": "/statehouse/docs/failure-modes/process-crash"
+  },
+  "next": {
+    "title": "Partial Writes",
+    "permalink": "/statehouse/docs/failure-modes/partial-writes"
+  }
+}

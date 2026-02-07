@@ -97,4 +97,4 @@ New features must align with core principles. Complexity is added only when nece
 ## Next Steps
 
 - [What is Statehouse?](what-is-statehouse) - Overview
-- [Getting Started](getting-started/installation) - Start using Statehouse
+- [Getting Started](../getting-started/installation) - Start using Statehouse

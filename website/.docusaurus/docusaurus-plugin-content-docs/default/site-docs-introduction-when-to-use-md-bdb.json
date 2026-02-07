@@ -1,0 +1,24 @@
+{
+  "id": "introduction/when-to-use",
+  "title": "When to Use Statehouse",
+  "description": "Statehouse is designed for specific use cases. Here's when it makes sense.",
+  "source": "@site/docs/introduction/when-to-use.md",
+  "sourceDirName": "introduction",
+  "slug": "/introduction/when-to-use",
+  "permalink": "/statehouse/docs/introduction/when-to-use",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/introduction/when-to-use.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "What is Statehouse?",
+    "permalink": "/statehouse/docs/introduction/what-is-statehouse"
+  },
+  "next": {
+    "title": "When Not to Use Statehouse",
+    "permalink": "/statehouse/docs/introduction/when-not-to-use"
+  }
+}

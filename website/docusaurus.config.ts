@@ -27,7 +27,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          routeBasePath: '/',
+          routeBasePath: 'docs',
           editUrl: 'https://github.com/statehouse-dev/statehouse/tree/main/website/',
         },
         blog: false,
@@ -67,15 +67,15 @@ const config: Config = {
           items: [
             {
               label: 'Introduction',
-              to: '/introduction/what-is-statehouse',
+              to: '/docs/introduction/what-is-statehouse',
             },
             {
               label: 'Getting Started',
-              to: '/getting-started/installation',
+              to: '/docs/getting-started/installation',
             },
             {
               label: 'Python SDK',
-              to: '/python-sdk/overview',
+              to: '/docs/python-sdk/overview',
             },
           ],
         },
@@ -93,7 +93,7 @@ const config: Config = {
           items: [
             {
               label: 'License',
-              to: '/license',
+              to: '/docs/license',
             },
           ],
         },

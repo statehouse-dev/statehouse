@@ -1,0 +1,24 @@
+{
+  "id": "getting-started/running-statehoused",
+  "title": "Running statehoused",
+  "description": "The Statehouse daemon (statehoused) is the core state engine. Here's how to run it.",
+  "source": "@site/docs/getting-started/running-statehoused.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/running-statehoused",
+  "permalink": "/statehouse/docs/getting-started/running-statehoused",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/getting-started/running-statehoused.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Installation",
+    "permalink": "/statehouse/docs/getting-started/installation"
+  },
+  "next": {
+    "title": "First Transaction",
+    "permalink": "/statehouse/docs/getting-started/first-transaction"
+  }
+}

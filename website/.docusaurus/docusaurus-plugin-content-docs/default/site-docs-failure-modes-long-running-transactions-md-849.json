@@ -1,0 +1,24 @@
+{
+  "id": "failure-modes/long-running-transactions",
+  "title": "Long-Running Transactions",
+  "description": "This document describes behavior with long-running transactions and timeouts.",
+  "source": "@site/docs/failure-modes/long-running-transactions.md",
+  "sourceDirName": "failure-modes",
+  "slug": "/failure-modes/long-running-transactions",
+  "permalink": "/statehouse/docs/failure-modes/long-running-transactions",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/failure-modes/long-running-transactions.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Partial Writes",
+    "permalink": "/statehouse/docs/failure-modes/partial-writes"
+  },
+  "next": {
+    "title": "Reference Agent",
+    "permalink": "/statehouse/docs/examples/reference-agent"
+  }
+}

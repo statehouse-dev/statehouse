@@ -1,0 +1,24 @@
+{
+  "id": "python-sdk/transactions",
+  "title": "Transactions",
+  "description": "Transactions group multiple writes and deletes into an atomic unit. Either all operations succeed, or none do.",
+  "source": "@site/docs/python-sdk/transactions.md",
+  "sourceDirName": "python-sdk",
+  "slug": "/python-sdk/transactions",
+  "permalink": "/statehouse/docs/python-sdk/transactions",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/python-sdk/transactions.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Statehouse Client",
+    "permalink": "/statehouse/docs/python-sdk/client"
+  },
+  "next": {
+    "title": "Reading State",
+    "permalink": "/statehouse/docs/python-sdk/reads"
+  }
+}

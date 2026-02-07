@@ -122,4 +122,4 @@ Replay is **deterministic**:
 ## Next Steps
 
 - [Determinism](determinism) - Learn about deterministic guarantees
-- [Examples](examples/reference-agent) - See replay in action
+- [Examples](../examples/reference-agent) - See replay in action

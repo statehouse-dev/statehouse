@@ -124,6 +124,6 @@ print("Reconstructed state:", state)
 
 ## Next Steps
 
-- [Concepts: Replay](concepts/replay) - Learn about replay guarantees
-- [Python SDK: Replay](python-sdk/replay) - Complete replay API reference
-- [Examples](examples/reference-agent) - See replay in a real agent
+- [Concepts: Replay](../concepts/replay) - Learn about replay guarantees
+- [Python SDK: Replay](../python-sdk/replay) - Complete replay API reference
+- [Examples](../examples/reference-agent) - See replay in a real agent

@@ -1,0 +1,24 @@
+{
+  "id": "grpc-internals/api-versioning",
+  "title": "API Versioning",
+  "description": "Statehouse uses a versioned API to ensure stability and backward compatibility.",
+  "source": "@site/docs/grpc-internals/api-versioning.md",
+  "sourceDirName": "grpc-internals",
+  "slug": "/grpc-internals/api-versioning",
+  "permalink": "/statehouse/docs/grpc-internals/api-versioning",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/grpc-internals/api-versioning.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Why gRPC",
+    "permalink": "/statehouse/docs/grpc-internals/why-grpc"
+  },
+  "next": {
+    "title": "Streaming Replay",
+    "permalink": "/statehouse/docs/grpc-internals/streaming-replay"
+  }
+}

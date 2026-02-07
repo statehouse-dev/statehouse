@@ -1,0 +1,24 @@
+{
+  "id": "python-sdk/reads",
+  "title": "Reading State",
+  "description": "Statehouse provides several methods for reading state.",
+  "source": "@site/docs/python-sdk/reads.md",
+  "sourceDirName": "python-sdk",
+  "slug": "/python-sdk/reads",
+  "permalink": "/statehouse/docs/python-sdk/reads",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/python-sdk/reads.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Transactions",
+    "permalink": "/statehouse/docs/python-sdk/transactions"
+  },
+  "next": {
+    "title": "Replay",
+    "permalink": "/statehouse/docs/python-sdk/replay"
+  }
+}

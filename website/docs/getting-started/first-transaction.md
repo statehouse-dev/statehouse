@@ -83,4 +83,4 @@ tx.abort()  # Discard the transaction
 ## Next Steps
 
 - [First Replay](first-replay) - Replay your transaction history
-- [Python SDK: Transactions](python-sdk/transactions) - Learn more about transactions
+- [Python SDK: Transactions](../python-sdk/transactions) - Learn more about transactions

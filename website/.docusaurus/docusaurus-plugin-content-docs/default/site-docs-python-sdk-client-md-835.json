@@ -1,0 +1,24 @@
+{
+  "id": "python-sdk/client",
+  "title": "Statehouse Client",
+  "description": "The Statehouse class is the main entry point for interacting with the daemon.",
+  "source": "@site/docs/python-sdk/client.md",
+  "sourceDirName": "python-sdk",
+  "slug": "/python-sdk/client",
+  "permalink": "/statehouse/docs/python-sdk/client",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/python-sdk/client.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Python SDK Overview",
+    "permalink": "/statehouse/docs/python-sdk/overview"
+  },
+  "next": {
+    "title": "Transactions",
+    "permalink": "/statehouse/docs/python-sdk/transactions"
+  }
+}

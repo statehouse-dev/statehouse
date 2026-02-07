@@ -14,7 +14,7 @@ function HomepageHeader() {
         <div className={clsx('margin-top--lg')}>
           <Link
             className="button button--secondary button--lg"
-            to="/introduction/what-is-statehouse">
+            to="/docs/introduction/what-is-statehouse">
             Read the Docs
           </Link>
           <Link
@@ -78,7 +78,7 @@ for event in client.replay(agent_id="my-agent"):
               <div className="margin-top--lg">
                 <Link
                   className="button button--primary button--lg"
-                  to="/getting-started/installation">
+                  to="/docs/getting-started/installation">
                   Get Started
                 </Link>
               </div>

@@ -55,4 +55,4 @@ Statehouse is perfect when:
 ## Next Steps
 
 - [When Not to Use Statehouse](when-not-to-use) - Learn about alternatives
-- [Getting Started](getting-started/installation) - Install and run Statehouse
+- [Getting Started](../getting-started/installation) - Install and run Statehouse

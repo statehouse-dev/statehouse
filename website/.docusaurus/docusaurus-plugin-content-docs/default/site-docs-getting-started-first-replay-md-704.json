@@ -1,0 +1,24 @@
+{
+  "id": "getting-started/first-replay",
+  "title": "First Replay",
+  "description": "Replay your agent's transaction history to see what happened.",
+  "source": "@site/docs/getting-started/first-replay.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/first-replay",
+  "permalink": "/statehouse/docs/getting-started/first-replay",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/getting-started/first-replay.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "First Transaction",
+    "permalink": "/statehouse/docs/getting-started/first-transaction"
+  },
+  "next": {
+    "title": "Python SDK Overview",
+    "permalink": "/statehouse/docs/python-sdk/overview"
+  }
+}

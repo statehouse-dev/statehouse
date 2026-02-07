@@ -439,12 +439,13 @@ except StatehouseError as e:
 
 ### Next Steps
 
+- **Documentation**: See the [full documentation](https://statehouse-dev.github.io/statehouse/) for guides, API reference, and examples
 - **Full Example**: See [`examples/agent_research/`](examples/agent_research/) for a complete agent with crash recovery and replay
 - **Python SDK Reference**: See [`python/README.md`](python/README.md) for detailed API documentation
 - **CLI Reference**: See [`python/docs/CLI.md`](python/docs/CLI.md) for all CLI commands
 - **Architecture**: See [`docs/architecture.md`](docs/architecture.md) to understand the design
 
-See [Python SDK docs](python/README.md) and [CLI docs](python/docs/CLI.md) for more details.
+See the [Documentation](https://statehouse-dev.github.io/statehouse/) for more details.
 
 ---
 

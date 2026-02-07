@@ -1,0 +1,24 @@
+{
+  "id": "getting-started/installation",
+  "title": "Installation",
+  "description": "Install Statehouse daemon and Python SDK.",
+  "source": "@site/docs/getting-started/installation.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/installation",
+  "permalink": "/statehouse/docs/getting-started/installation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/getting-started/installation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Determinism",
+    "permalink": "/statehouse/docs/concepts/determinism"
+  },
+  "next": {
+    "title": "Running statehoused",
+    "permalink": "/statehouse/docs/getting-started/running-statehoused"
+  }
+}

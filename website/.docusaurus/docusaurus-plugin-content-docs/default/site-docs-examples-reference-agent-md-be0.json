@@ -1,0 +1,24 @@
+{
+  "id": "examples/reference-agent",
+  "title": "Reference Agent",
+  "description": "The repository includes a reference agent implementation demonstrating Statehouse integration.",
+  "source": "@site/docs/examples/reference-agent.md",
+  "sourceDirName": "examples",
+  "slug": "/examples/reference-agent",
+  "permalink": "/statehouse/docs/examples/reference-agent",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/statehouse-dev/statehouse/tree/main/website/docs/examples/reference-agent.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Long-Running Transactions",
+    "permalink": "/statehouse/docs/failure-modes/long-running-transactions"
+  },
+  "next": {
+    "title": "Resume After Crash",
+    "permalink": "/statehouse/docs/examples/resume-after-crash"
+  }
+}
