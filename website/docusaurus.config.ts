@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Statehouse',
-  tagline: 'Strongly consistent state for agents and workflows',
+  tagline: 'Strongly consistent state for AI agents and workflows',
   favicon: 'img/favicon.ico',
 
   // GitHub Pages with custom domain statehouse.dev

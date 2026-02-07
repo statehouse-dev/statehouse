@@ -43,6 +43,10 @@ publish-python:
 publish-python-test:
     ./scripts/publish_python.sh --test
 
+# Preview the docs website locally (http://localhost:3000, hot reload)
+website-preview:
+    cd website && npm start
+
 # Build Docker image for statehoused (default tag: statehouse-dev/statehouse:latest)
 # Override: just docker-build DOCKER_IMAGE=myuser/statehouse:v0.1.0
 docker-build DOCKER_IMAGE="statehouse-dev/statehouse:latest":
