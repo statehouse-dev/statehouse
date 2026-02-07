@@ -4,7 +4,8 @@
     "python@3.11",
     "cargo@latest",
     "rustc@latest",
-    "just@latest"
+    "just@latest",
+    "nodejs@20"
   ],
   "shell": {
     "init_hook": ". $VENV_DIR/bin/activate"
