@@ -1,0 +1,12 @@
+# Tutorial local files
+.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+
+# Local state (use Statehouse for persistence)
+*.log
+*.tmp

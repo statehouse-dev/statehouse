@@ -1,0 +1,7 @@
+# Human-in-the-loop Approval Agent Tutorial
+# 
+# The Statehouse SDK is installed from the parent directory:
+#   pip install -e ../../python
+
+# No additional dependencies required for this tutorial.
+# All dependencies are provided by the Statehouse SDK.

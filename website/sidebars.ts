@@ -40,6 +40,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'tutorials/overview',
         'tutorials/resumable-research-agent',
+        'tutorials/human-in-the-loop-agent',
       ],
     },
     {

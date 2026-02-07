@@ -68,13 +68,36 @@ Build a research agent that survives crashes and provides full audit trails.
 
 [**Start Tutorial →**](./resumable-research-agent)
 
+### Tutorial 02: Human-in-the-loop Approval Agent
+
+**Level**: Intermediate  
+**Time**: 15-20 minutes  
+**Repository**: [tutorials/02-human-in-the-loop-agent/](https://github.com/username/statehouse/tree/main/tutorials/02-human-in-the-loop-agent)
+
+Build an auditable, explainable AI workflow with human approval gates.
+
+**What you'll learn:**
+
+- Building audit trails for compliance
+- Implementing human approval workflows
+- Post-hoc explainability
+- Crash recovery across approval boundaries
+
+**Topics covered:**
+
+- Approval gates and human-in-the-loop patterns
+- Explainability from stored state
+- Workflow state machines
+- Audit and replay
+
+[**Start Tutorial →**](./human-in-the-loop-agent)
+
 ### More Coming Soon
 
 Additional tutorials in development:
 
-- **Tutorial 02**: Multi-Agent Workflows
-- **Tutorial 03**: Long-Running Computations
-- **Tutorial 04**: Audit and Compliance
+- **Tutorial 03**: Multi-Agent Workflows
+- **Tutorial 04**: Long-Running Computations
 
 ## Tutorial Structure
 
