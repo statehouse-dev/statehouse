@@ -156,12 +156,25 @@ ls -lh python/dist/
 
 ### Step 6: Publish Python Package (Optional)
 
+**Build and upload to PyPI:**
+
 ```bash
-# Publish to PyPI (requires credentials)
+# Option A: Use the publish script (builds sdist + wheel, then upload)
+./scripts/publish_python.sh --upload
+# When prompted: username = __token__, password = your PyPI API token
+```
+
+Or manually:
+
+```bash
 cd python
-python -m twine upload dist/*
+pip install build twine
+python -m build          # Creates dist/*.tar.gz and dist/*.whl
+twine upload dist/*     # Requires PyPI token (https://pypi.org/manage/account/token/)
 cd ..
 ```
+
+**Test first on Test PyPI:** `./scripts/publish_python.sh --test`, then `pip install -i https://test.pypi.org/simple/ statehouse`
 
 ### Step 7: Update Documentation Site
 

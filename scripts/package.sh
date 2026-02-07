@@ -99,7 +99,7 @@ https://github.com/statehouse/statehouse
 
 ## License
 
-See LICENSE file in the source repository.
+See LICENSE.md in the source repository.
 EOF
 
 # Create tarball

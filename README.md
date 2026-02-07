@@ -445,3 +445,7 @@ except StatehouseError as e:
 - **Architecture**: See [`docs/architecture.md`](docs/architecture.md) to understand the design
 
 See [Python SDK docs](python/README.md) and [CLI docs](python/docs/CLI.md) for more details.
+
+---
+
+**License:** Free to use, source-available proprietary. See [LICENSE.md](LICENSE.md).
