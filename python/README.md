@@ -39,4 +39,5 @@ for event in client.replay(agent_id="agent-1"):
 
 ## Documentation
 
-See [../docs/](../docs/) for project documentation (architecture, API contract, troubleshooting). For the CLI: [docs/CLI.md](docs/CLI.md).
+- **Project docs** (architecture, API contract, troubleshooting): [github.com/statehouse-dev/statehouse/tree/main/docs](https://github.com/statehouse-dev/statehouse/tree/main/docs)
+- **CLI reference**: [python/docs/CLI.md](https://github.com/statehouse-dev/statehouse/blob/main/python/docs/CLI.md)

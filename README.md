@@ -209,7 +209,7 @@ The daemon will start on `localhost:50051` by default. You should see:
 cd python
 pip install -e .
 
-# Or install from PyPI (when released)
+# Or install from PyPI
 pip install statehouse
 ```
 
